@@ -1,0 +1,85 @@
+#include <iostream>
+#include <stdlib.h>
+#include <string.h>
+using namespace std;
+
+#define capacity 1000
+int menu, i=0, n=0 , m=0, p=0;
+char cont;
+
+struct user_info{
+    char fName[30];
+    char lName[30];
+    string email;
+    char userName[30];
+    char password[30];
+    int return_key;
+    int borrowed_book_id=0;
+}user[capacity],tempUser;
+
+struct book_info{
+    struct identity{
+        char na[3]={'l','m','s'};
+        int increment=0;
+                   }ID;
+	char bookName[60];
+	char authorName[40];
+	char category[30];
+	int amount;
+	int volume;
+	int rating=0;
+    int pubYear;
+    int amount_of_rate=1;
+}book[capacity],temp;
+
+struct admin_confirm{
+    char adminUname[50] = "LMS" ;
+    char adminPass[50] = "#LMS@123";
+}tempAdmin,admin;
+
+void admin_login_page();    void admin_page();      void add_book();    void search_book();     void searchbook();
+void searchbookcat();   void searchbookAuth();      void sortAsName();      void sortDsName();  void sortAsID();
+void sortDsID();       void sortAsCategory();      void sortDsCategory();      void sortAsPubYear();   void sortDsPubYear();
+void sortAsAuthor();    void sortDsAuthor();    void display_user_page();   void display_book_page();   void display();
+void display_user();    void sortAsfName();  void sortDsfName();    void display_borrow();  void sortDslName();       void sortAsuserName();
+void sortDsuserName();  void user_page();   void get_user_email();  void get_user();      void users();     void user_login();
+void reg_user();    void borrow_book();     void delete_user();     void search_user();     void update_book();      void delete_book();
+void do_delete_book(int INCR);           void return_book();         void sortAslName();    void sortDsFreq();
+void sortAsFreq();  void sortDsRate();  void sortAsRate();
+
+int main(){
+    system("color B");
+    system("cls");
+    cout<<"\n   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd"<<endl;
+    cout<< "\t    WELCOME TO OUR LIBRARY \n";
+    cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd MENU OPTIONS \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t Admin     ---------      [1] \n";
+    cout<<"\t User      ---------      [2] \n";
+    cout<<"\t Exit      ---------      [3] \n";
+    cout <<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t Choice: ";
+    cin>>menu;
+    switch(menu){
+        case 1:
+            system("cls");
+            admin_login_page();
+            break;
+        case 2:
+            system("cls");
+            user_page();
+            break;
+        case 3:
+            cout<<"\n   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd"<<endl;
+            cout<< "\t    THANK YOU FOR USING  \n";
+            cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+            return 0;
+            break;
+        default:
+            cout<<"\t\nINVALID INPUT!\n\t";
+            system("pause");
+            system("cls");
+            main();
+    }
+}
