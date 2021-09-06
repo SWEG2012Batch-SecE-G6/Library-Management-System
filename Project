@@ -1,0 +1,1161 @@
+#include <iostream>
+#include <stdlib.h>
+#include <string.h>
+using namespace std;
+
+#define capacity 1000
+int menu, i=0, n=0 , m=0, p=0;
+char cont;
+
+struct user_info{
+    char fName[30];
+    char lName[30];
+    string email;
+    char userName[30];
+    char password[30];
+    int return_key;
+    int borrowed_book_id=0;
+}user[capacity],tempUser;
+
+struct book_info{
+    struct identity{
+        char na[3]={'l','m','s'};
+        int increment=0;
+                   }ID;
+	char bookName[60];
+	char authorName[40];
+	char category[30];
+	int amount;
+	int volume;
+	int rating=0;
+    int pubYear;
+    int amount_of_rate=1;
+}book[capacity],temp;
+
+struct admin_confirm{
+    char adminUname[50] = "LMS" ;
+    char adminPass[50] = "#LMS@123";
+}tempAdmin,admin;
+
+void admin_login_page();    void admin_page();      void add_book();    void search_book();     void searchbook();
+void searchbookcat();   void searchbookAuth();      void sortAsName();      void sortDsName();  void sortAsID();
+void sortDsID();       void sortAsCategory();      void sortDsCategory();      void sortAsPubYear();   void sortDsPubYear();
+void sortAsAuthor();    void sortDsAuthor();    void display_user_page();   void display_book_page();   void display();
+void display_user();    void sortAsfName();  void sortDsfName();    void display_borrow();  void sortDslName();       void sortAsuserName();
+void sortDsuserName();  void user_page();   void get_user_email();  void get_user();      void users();     void user_login();
+void reg_user();    void borrow_book();     void delete_user();     void search_user();     void update_book();      void delete_book();
+void do_delete_book(int INCR);           void return_book();         void sortAslName();    void sortDsFreq();
+void sortAsFreq();  void sortDsRate();  void sortAsRate();
+
+int main(){
+    system("color B");
+    system("cls");
+    cout<<"\n   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd"<<endl;
+    cout<< "\t    WELCOME TO OUR LIBRARY \n";
+    cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd MENU OPTIONS \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t Admin     ---------      [1] \n";
+    cout<<"\t User      ---------      [2] \n";
+    cout<<"\t Exit      ---------      [3] \n";
+    cout <<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t Choice: ";
+    cin>>menu;
+    switch(menu){
+        case 1:
+            system("cls");
+            admin_login_page();
+            break;
+        case 2:
+            system("cls");
+            user_page();
+            break;
+        case 3:
+            cout<<"\n   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd"<<endl;
+            cout<< "\t    THANK YOU FOR USING  \n";
+            cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+            return 0;
+            break;
+        default:
+            cout<<"\t\nINVALID INPUT!\n\t";
+            system("pause");
+            system("cls");
+            main();
+    }
+}
+void admin_page(){
+    system("cls");
+    system("cls");
+
+    cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd ADMIN PAGE \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t Add Book               --------- [1] \n";
+    cout<<"\t Display  All Books     --------- [2] \n";
+    cout<<"\t Search Book            --------- [3] \n";
+    cout<<"\t Display Borrowed Books --------- [4] \n";
+    cout<<"\t Delete Book            --------- [5] \n";
+    cout<<"\t Update Book            --------- [6] \n";
+    cout<<"\t Display  All Users     --------- [7] \n";
+    cout<<"\t Search User            --------- [8] \n";
+    cout<<"\t Delete User            --------- [9] \n";
+    cout<<"\t Main Menu              --------- [10] \n";
+    cout <<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t Choice: ";
+    cin>>menu;
+    switch(menu){
+        case 1:
+            system("cls");
+            add_book();
+            break;
+        case 2:
+            system("cls");
+            display_book_page();
+            break;
+        case 3:
+            system("cls");
+            search_book();
+            break;
+        case 4:
+            system("cls");
+            display_borrow();
+            break;
+        case 5:
+            system("cls");
+            delete_book();
+            break;
+        case 6:
+            system("cls");
+            update_book();
+            break;
+        case 7:
+            system("cls");
+            display_user_page();
+            break;
+        case 8:
+            system("cls");
+            search_user();
+            break;
+        case 9:
+            system("cls");
+            delete_user();
+            break;
+        case 10:
+            system("cls");
+            main();
+            break;
+        default:
+            cout <<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+            cout<<"\tINVALID INPUT!\n\n";
+            system("pause");
+            system("cls");
+            admin_page();
+    }
+}
+void users(){
+    cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd MENU OPTIONS \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t Borrow Book           --------- [1] \n";
+    cout<<"\t Display  All Books    --------- [2] \n";
+    cout<<"\t Return Borrowed Books --------- [3] \n";
+    cout<<"\t Search Book           --------- [4] \n";
+    cout<<"\t Main Menu             --------- [5] \n";
+    cout <<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t Choice: ";
+    cin>>menu;
+    switch(menu){
+        case 1:
+            system("cls");
+            borrow_book();
+            break;
+        case 2:
+            system("cls");
+            display_book_page();
+            break;
+        case 3:
+            system("cls");
+            return_book();
+            break;
+        case 4:
+            system("cls");
+            search_book();
+            break;
+        case 5:
+            system("cls");
+            main();
+            break;
+        default:
+            cout <<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+            cout<<"\tINVALID INPUT!\n\n";
+            system("pause");
+            system("cls");
+            users();
+    }
+}
+void return_book(){
+    system("cls");
+    int rate;
+    cout<<"Enter The Return Key: ";
+    cin>>tempUser.return_key;
+    if(user[p].return_key==tempUser.return_key){
+        cout<<"RATE THE BOOK OUT OF 5: ";
+        cin>>rate;
+        book[user[p].borrowed_book_id-1].rating=(book[user[p].borrowed_book_id-1].rating+rate)/book[user[p].borrowed_book_id-1].amount_of_rate;
+        book[user[p].borrowed_book_id-1].amount_of_rate++;
+        book[user[p].borrowed_book_id].amount++;
+        cout<<"\nBOOK RETURNED SUCCESSFULLY!\n";
+        book[temp.ID.increment-1].amount--;
+        user[p].return_key=0;
+        user[p].borrowed_book_id=0;
+        system("pause");
+        system("cls");
+        users();
+    }
+    else{
+        cout<<"\nINVALID RETURN KEY!\n";
+        cout<<"\nPress 1 To Try Again or Press Any Key To Go Back To The Previous Page... ";
+        cin>>cont;
+        while(cont=='1'){
+            system("cls");
+            borrow_book();
+            }
+    }
+}
+void borrow_book(){
+    int exist=0,exist1=0;
+    if(user[p].borrowed_book_id!=0){
+        cout<<"\n   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd"<<endl;
+        cout<<"\tPLEASE RETURN THE BOOK YOU BORROWED FIRST! \n";
+        cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+        system("pause");
+        system("cls");
+        users();
+        }
+    cout <<"\n\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t  Enter Name Of The Book: ";
+    cin.ignore();
+    cin.get(temp.bookName, 100);
+    cout<<"\t======================================================================================================\n";
+    cout<<"\tBook ID "<<"\t"<<"Book name"<<"\t"<<"Author name"<<"\t"<<"Category"<<"\t"<<"Pub.Year"<<"\t"<<"Volume"<<"\t\t"<<"Amount"<<endl;
+    cout<<"\t______________________________________________________________________________________________________\n";
+    for(int j = 0; j< i; j++){
+        if(strcmp(book[j].bookName,temp.bookName) == 0){
+            exist=1;
+            cout<<"\t"<<book[j].ID.na<<book[j].ID.increment<<"\t\t"<<book[j].bookName<<"\t\t"<<book[j].authorName;
+            cout<<"\t\t"<<book[j].category<<"\t\t"<<book[j].volume<<"\t\t"<<book[j].pubYear<<"\t\t"<<book[j].amount<<endl;
+            cout<<"\t______________________________________________________________________________________________________\n";
+        }
+    }
+    if(exist==0){
+        system("cls");
+        cout<<"\t==========================================================================================\n";
+        cout << "\t\t\tNO BOOK RECORD BY THE NAME: "<<temp.bookName<<endl;
+        cout<<"\t==========================================================================================\n\n";
+        system("pause");
+        system("cls");
+        users();
+    }
+    if(exist==1){
+        cout<<"Enter The Numerical Part Of The ID Of The Book You Want To Borrow From The List Above."<<endl<<"\nlms: ";
+        cin>>temp.ID.increment;
+        system("cls");
+        for(int j=0; j<i; j++){
+            if(temp.ID.increment==book[j].ID.increment){
+                exist1 = 1;
+                if(book[temp.ID.increment-1].amount<1){
+                    cout<<"\n   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd"<<endl;
+                    cout<< "\t    BOOK NOT AVAILABLE  \n";
+                    cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+                    system("pause");
+                    system("cls");
+                    users();
+                }
+                else{
+                    user[p].return_key=rand();
+                    cout<<"\n   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd"<<endl;
+                    cout<<"\t   Return Key: "<<user[p].return_key<<endl;
+                    cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+                    cout<< "\t    BOOK BORROWED SUCCESSFULLY  \n";
+                    cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+                    book[temp.ID.increment-1].amount--;
+                    user[p].borrowed_book_id=temp.ID.increment;
+                    system("pause");
+                    system("cls");
+                    users();
+                    break;
+                }
+            }
+        }
+    }
+    if(exist1==0){
+        cout<<"\n   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd"<<endl;
+        cout<<"\t   Incorrect Book ID! \n";
+        cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+        cout<<"\nPress 1 To Try Again or Press Any Key To Go Back To The Previous Page... ";
+        cin>>cont;
+        while(cont=='1'){
+            system("cls");
+            borrow_book();
+        }
+    }
+}
+void display_borrow(){
+    int exist=0;
+    cout<<"\t\t\t     \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"\t\t\t     \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd USER LIST \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"\t==================================================================================\n";
+    cout<<"\tUSER NAME"<<"\t"<<"BOOK ID"<<"\t\t"<<"BOOK NAME"<<"\t"<<"RETURN KEY"<<"\t"<<"EMAIL ADDRESS"<<endl;
+    cout<<"\t__________________________________________________________________________________\n";
+    for(int j=0; j<capacity; j++){
+        if(user[j].return_key!=0){
+            exist=1;
+            cout<<"\t"<<user[j].userName<<"\t\t"<<book[user[j].borrowed_book_id-1].ID.na<<book[user[j].borrowed_book_id-1].ID.increment<<"\t\t";
+            cout<<book[user[j].borrowed_book_id-1].bookName<<"\t\t"<<user[j].return_key<<"\t\t"<<user[j].email<<endl;
+            cout<<"\t___________________________________________________________________________________\n";
+        }
+    }
+    if(exist==0){
+        cout<<"\t==========================================================================================\n";
+        cout << "\t\t\tNO BORROWED BOOK RECORD!"<<endl;
+        cout<<"\t==========================================================================================\n\n";
+    }
+    system("pause");
+    system("cls");
+    admin_page();
+}
+void search_book(){
+    loop:
+    system("cls");
+    cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd SEARCH PAGE \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t Search By Book Name   --------- [1] \n";
+    cout<<"\t Search By Author Name --------- [2] \n";
+    cout<<"\t Search By Category    --------- [3] \n";
+    cout<<"\t Main Menu             --------- [4] \n";
+    cout <<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t Choice: ";
+    cin>>menu;
+    switch(menu){
+        case 1:
+            system("cls");
+            searchbook();
+            system("pause");
+            system("cls");
+            goto loop;
+            break;
+        case 2:
+            system("cls");
+            searchbookAuth();
+            goto loop;
+            break;
+        case 3:
+            system("cls");
+            searchbookcat();
+            goto loop;
+            break;
+        case 4:
+            system("cls");
+            main();
+            break;
+        default:
+            cout <<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+            cout<<"\tINVALID INPUT!\n\n";
+            system("pause");
+            system("cls");
+            search_book();
+    }
+}
+void searchbook(){
+    bool found = false;
+    cout <<"\n\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t  Enter Name Of The Book: ";
+    cin.ignore();
+    cin.get(temp.bookName, 100);
+    cout<<"\t======================================================================================================\n";
+    cout<<"\tBook ID "<<"\t"<<"Book name"<<"\t"<<"Author name"<<"\t"<<"Category"<<"\t"<<"Pub.Year"<<"\t"<<"Volume"<<"\t\t"<<"Rating"<<endl;
+    cout<<"\t______________________________________________________________________________________________________\n";
+    for(int j = 0; j< i; j++){
+        if(strcmp(book[j].bookName,temp.bookName) == 0){
+            found = true;
+            cout<<"\t"<<book[j].ID.na<<book[j].ID.increment<<"\t\t"<<book[j].bookName<<"\t\t"<<book[j].authorName;
+            cout<<"\t\t"<<book[j].category<<"\t\t"<<book[j].volume<<"\t\t"<<book[j].pubYear<<"\t\t"<<book[j].rating<<endl;
+            cout<<"\t______________________________________________________________________________________________________\n";
+        }
+    }
+    if(!found){
+        system("cls");
+        cout<<"\t======================================================================================================\n";
+        cout << "\t\t\tNO BOOK RECORD BY THE NAME: "<<temp.bookName<<endl;
+        cout<<"\t======================================================================================================\n";
+    }
+}
+void searchbookcat(){
+    bool found = false;
+    cout <<"\n\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t  Enter Catagory Of The Book: ";
+    cin.ignore();
+    cin.get(temp.category, 100);
+    cout<<"\t======================================================================================================\n";
+    cout<<"\tBook ID "<<"\t"<<"Book name"<<"\t"<<"Author name"<<"\t"<<"Category"<<"\t"<<"Pub.Year"<<"\t"<<"Volume"<<"\t\t"<<"Rating"<<endl;
+    cout<<"\t______________________________________________________________________________________________________\n";
+    for(int j = 0; j< i; j++){
+        if(strcmp(book[j].category,temp.category) == 0){
+            found = true;
+            cout<<"\t"<<book[j].ID.na<<book[j].ID.increment<<"\t\t"<<book[j].bookName<<"\t\t"<<book[j].authorName;
+            cout<<"\t\t"<<book[j].category<<"\t\t"<<book[j].volume<<"\t\t"<<book[j].pubYear<<"\t\t"<<book[j].rating<<endl;
+            cout<<"\t______________________________________________________________________________________________________\n";
+        }
+    }
+    if(!found){
+        system("cls");
+        cout<<"\t======================================================================================================\n";
+        cout << "\t\t\tNO BOOK RECORD BY IN THE CATAGORY: "<<temp.category<<endl;
+        cout<<"\t======================================================================================================\n\n\t";
+    }
+    system("pause");
+    system("cls");
+}
+void searchbookAuth(){
+    bool found = false;
+    cout <<"\n\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t  Enter Name Of The Book: ";
+    cin.ignore();
+    cin.get(temp.authorName, 100);
+    cout<<"\t======================================================================================================\n";
+    cout<<"\tBook ID "<<"\t"<<"Book name"<<"\t"<<"Author name"<<"\t"<<"Category"<<"\t"<<"Pub.Year"<<"\t"<<"Volume"<<"\t\t"<<"Rating"<<endl;
+    cout<<"\t______________________________________________________________________________________________________\n";
+    for(int j = 0; j< i; j++){
+        if(strcmp(book[j].authorName,temp.authorName) == 0){
+            found = true;
+            cout<<"\t"<<book[j].ID.na<<book[j].ID.increment<<"\t\t"<<book[j].bookName<<"\t\t"<<book[j].authorName;
+            cout<<"\t\t"<<book[j].category<<"\t\t"<<book[j].volume<<"\t\t"<<book[j].pubYear<<"\t\t"<<book[j].rating<<endl;
+            cout<<"\t______________________________________________________________________________________________________\n";
+        }
+    }
+    if(!found){
+        system("cls");
+        cout<<"\t======================================================================================================\n";
+        cout << "\t\t\tNO BOOK RECORD BY THE AUTHOR: "<<temp.authorName<<endl;
+        cout<<"\t======================================================================================================\n\n\t";
+    }
+    system("pause");
+    system("cls");
+}
+void display_book_page(){
+    system("cls");
+    cout<<"\t\t\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"\t\t\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd BOOK DISPLAY PAGE \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t Sort In Ascending Order Of Book Name         --------- [1] \n";
+    cout<<"\t Sort In Descending Order Of Book Name        --------- [2] \n";
+    cout<<"\t Sort In Ascending Order Of Book ID           --------- [3] \n";
+    cout<<"\t Sort In Descending Order Of Book ID          --------- [4] \n";
+    cout<<"\t Sort In Ascending Order Of Author Name       --------- [5] \n";
+    cout<<"\t Sort In Descending Order Of Author Name      --------- [6] \n";
+    cout<<"\t Sort In Ascending Order Of Category          --------- [7] \n";
+    cout<<"\t Sort In Descending Order Of Category         --------- [8] \n";
+    cout<<"\t Sort In Ascending Order Of Publication Year  --------- [9] \n";
+    cout<<"\t Sort In Descending Order Of Publication Year --------- [10] \n";
+    cout<<"\t Main Menu          ----------------------              [11] \n";
+    cout<<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t Choice: ";
+    cin>>menu;
+    switch(menu){
+        case 1:
+            system("cls");
+            sortAsName();
+            break;
+        case 2:
+            system("cls");
+            sortDsName();
+            break;
+        case 3:
+            system("cls");
+            sortAsID();
+            break;
+        case 4:
+            system("cls");
+            sortDsID();
+            break;
+        case 5:
+            system("cls");
+            sortAsAuthor();
+            break;
+        case 6:
+            system("cls");
+            sortDsAuthor();
+            break;
+        case 7:
+            system("cls");
+            sortAsCategory();
+            break;
+        case 8:
+            system("cls");
+            sortDsCategory();
+            break;
+        case 9:
+            system("cls");
+            sortAsPubYear();
+            break;
+        case 10:
+            system("cls");
+            sortDsPubYear();
+            break;
+        case 11:
+            system("cls");
+            main();
+            break;
+        default:
+            cout <<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+            cout<<"\tINVALID INPUT!\n\n";
+            system("pause");
+            system("cls");
+            display_book_page();
+    }
+}
+void admin_login_page(){
+    system("cls");
+    rethere:
+    cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd ADMIN LOGIN PAGE \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t Enter User Name: ";
+    cin.ignore();
+    cin.get(tempAdmin.adminUname, 50);
+    cout<<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t Enter Password: ";
+    cin.ignore();
+    cin.get(tempAdmin.adminPass, 50);
+    cout<<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    if(strcmp(tempAdmin.adminUname, admin.adminUname) != 0 || strcmp(tempAdmin.adminPass, admin.adminPass)!=0){
+        cout<<"\t INCORRECT USER NAME OR PASSWORD!"<<endl;
+        cout<<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+        cout<<"\nPress '1' To Try Again Or Any Other Key To Return To The Main Menu...";
+        cin>>cont;
+        if(cont == '1'){
+            system("cls");
+            goto rethere;
+        }
+        else{
+            system("cls");
+            main();
+        }
+    }
+    else{
+        admin_page();
+    }
+}
+void sortAsID(){
+    system("cls");
+    cout<<endl;
+    for(int k=0; k<i; k++){
+        for(int j=0;j<i-k-1;j++){
+            if(book[j].ID.increment>book[j+1].ID.increment){
+                temp = book[j];
+                book[j]=book[j+1];
+                book[j+1]=temp;
+            }
+        }
+    }
+    display();
+    cout<<"\t";
+    system("pause");
+    system("cls");
+    display_book_page();
+}
+void sortDsID(){
+    system("cls");
+    cout<<endl;
+    for(int k=0; k<n; k++){
+        for(int j=0; j<i-k-1; j++){
+            if(book[j].ID.increment<book[j+1].ID.increment){
+                temp = book[j];
+                book[j]=book[j+1];
+                book[j+1]=temp;
+            }
+        }
+    }
+    display();
+    cout<<"\t";
+    system("pause");
+    system("cls");
+    display_book_page();
+}
+void sortAsPubYear(){
+    system("cls");
+    cout<<endl;
+    for(int k=0; k<i; k++){
+        for(int j=0; j<i-k-1; j++){
+            if(book[j].pubYear>book[j+1].pubYear){
+                temp = book[j];
+                book[j]=book[j+1];
+                book[j+1]=temp;
+            }
+        }
+    }
+    display();
+    cout<<"\t";
+    system("pause");
+    system("cls");
+    display_book_page();
+void sortDsPubYear(){
+    system("cls");
+    cout<<endl;
+    for(int k=0; k<n; k++){
+        for(int j=0; j<i-k-1; j++){
+            if(book[j].pubYear<book[j+1].pubYear){
+                temp = book[j];
+                book[j]=book[j+1];
+                book[j+1]=temp;
+            }
+        }
+    }
+    display();
+    cout<<"\t";
+    system("pause");
+    system("cls");
+    display_book_page();
+}
+void sortAsName(){
+    system("cls");
+    cout<<endl;
+    for(int k=0; k<i; k++){
+        for(int j=0; j<i-k-1; j++){
+            if(strcmp(book[j].bookName,book[j+1].bookName)>0){
+                temp = book[j];
+                book[j]=book[j+1];
+                book[j+1]=temp;
+            }
+        }
+    }
+    display();
+    cout<<"\t";
+    system("pause");
+    system("cls");
+    display_book_page();
+}
+void sortDsName(){
+    system("cls");
+    cout<<endl;
+    for(int k=0; k<2; k++){
+        for(int j=0; j<i-k-1; j++){
+            if(strcmp(book[j].bookName,book[j+1].bookName)<0){
+                temp = book[j];
+                book[j]=book[j+1];
+                book[j+1]=temp;
+            }
+        }
+    }
+    display();
+    cout<<"\t";
+    system("pause");
+    system("cls");
+    display_book_page();
+}
+void sortAsAuthor(){
+    system("cls");
+    cout<<endl;
+    for(int k=0; k<i; k++){
+        for(int j=0; j<i-k-1; j++){
+            if(strcmp(book[j].authorName,book[j+1].authorName)>0){
+                temp = book[j];
+                book[j]=book[j+1];
+                book[j+1]=temp;
+            }
+        }
+    }
+    display();
+    cout<<"\t";
+    system("pause");
+    system("cls");
+    display_book_page();
+}
+void sortDsAuthor(){
+    system("cls");
+    cout<<endl;
+    for(int k=0; k<i; k++){
+        for(int j=0; j<i-k-1; j++){
+            if(strcmp(book[j].authorName,book[j+1].authorName)<0){
+                temp = book[j];
+                book[j]=book[j+1];
+                book[j+1]=temp;
+            }
+        }
+    }
+    display();
+    cout<<"\t";
+    system("pause");
+    system("cls");
+    display_book_page();
+}
+void sortAsCategory(){
+    system("cls");
+    cout<<endl;
+    for(int k=0; k<i; k++){
+        for(int j=0; j<i-k-1; j++){
+            if(strcmp(book[j].category,book[j+1].category)>0){
+                temp = book[j];
+                book[j]=book[j+1];
+                book[j+1]=temp;
+            }
+        }
+    }
+    display();
+    cout<<"\t";
+    system("pause");
+    system("cls");
+    display_book_page();
+}
+void sortDsCategory(){
+    system("cls");
+    cout<<endl;
+    for(int k=0; k<i; k++){
+        for(int j=0;j<i-k-1;j++){
+            if(strcmp(book[j].category,book[j+1].category)<0){
+                temp = book[j];
+                book[j]=book[j+1];
+                book[j+1]=temp;
+            }
+        }
+    }
+    display();
+    cout<<"\t";
+    system("pause");
+    system("cls");
+    display_book_page();
+}
+void display(){
+    system("cls");
+    system("color 8");
+    cout<<"\t\t\t     \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"\t\t\t     \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd BOOK LIST \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"\t======================================================================================================\n";
+    cout<<"\tBook ID "<<"\t"<<"Book name"<<"\t"<<"Author name"<<"\t"<<"Category"<<"\t"<<"Pub.Year"<<"\t"<<"Volume"<<"\t\t"<<"Rating"<<"\t\t"<<"Mostly Read"<<endl;
+    cout<<"\t______________________________________________________________________________________________________\n";
+    for(int j=0;j<i;j++){
+        cout<<"\t"<<book[j].ID.na<<book[j].ID.increment<<"\t\t"<<book[j].bookName<<"\t\t"<<book[j].authorName;
+        cout<<"\t\t"<<book[j].category<<"\t\t"<<book[j].volume<<"\t\t"<<book[j].pubYear<<"\t\t"<<book[j].rating<<"\t\t"<<book[j].amount_of_rate<<endl;
+        cout<<"\t______________________________________________________________________________________________________\n";
+    }
+    cout<<endl;
+}
+void display_user(){
+    system("cls");
+    system("color 8");
+    cout<<"\t\t\t     \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"\t\t\t     \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd USER LIST \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"\t==================================================================================\n";
+    cout<<"\tUSER NAME"<<"\t"<<"FIRST NAME"<<"\t"<<"LAST NAME"<<"\t"<<"PASSWORD"<<"\t"<<"EMAIL ADDRESS"<<endl;
+    cout<<"\t__________________________________________________________________________________\n";
+    for(int j=0;j<n;j++){
+        cout<<"\t"<<user[j].userName<<"\t\t"<<user[j].fName<<"\t\t"<<user[j].lName<<"\t\t"<<user[j].password<<"\t\t"<<user[j].email<<endl;
+        cout<<"\t___________________________________________________________________________________\n";
+    }
+    cout<<endl;
+}
+
+void update_book(){
+    bool found=false,found1=false;
+    cout <<"\n\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t  Enter Name Of The Book: ";
+    cin.ignore();
+    cin.get(temp.bookName, 100);
+    cout<<"\t======================================================================================================\n";
+    cout<<"\tBook ID "<<"\t"<<"Book name"<<"\t"<<"Author name"<<"\t"<<"Category"<<"\t"<<"Pub.Year"<<"\t"<<"Volume"<<"\t\t"<<"Rating"<<endl;
+    cout<<"\t______________________________________________________________________________________________________\n";
+    for(int j = 0; j< i; j++){
+        if(strcmp(book[j].bookName,temp.bookName) == 0){
+            found = true;
+            cout<<"\t"<<book[j].ID.na<<book[j].ID.increment<<"\t\t"<<book[j].bookName<<"\t\t"<<book[j].authorName;
+            cout<<"\t\t"<<book[j].category<<"\t\t"<<book[j].volume<<"\t\t"<<book[j].pubYear<<"\t\t"<<book[j].rating<<endl;
+            cout<<"\t______________________________________________________________________________________________________\n";
+        }
+    }
+    if(found==false){
+        system("cls");
+        cout<<"\t======================================================================================================\n";
+        cout << "\t\t\tNO BOOK RECORD BY THE NAME: "<<temp.bookName<<endl;
+        cout<<"\t======================================================================================================\n\n\t";
+        system("pause");
+        system("cls");
+        admin_page();
+    }
+    if(found==true){
+        cout<<"Enter The Numerical Part Of The ID Of The Book You Want To Update From The List Above."<<endl<<"\t  lms: ";
+        cin>>temp.ID.increment;
+        system("cls");
+        for(int j=0; j<i; j++){
+            if(temp.ID.increment==book[j].ID.increment){
+                found1 = true;
+                cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+                cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd UPDATE PAGE \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+                cout<<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+                cout<<"\t  Choose The One you Want To Edit\n";
+                cout<<"\t  Book Name             --------- [1] \n";
+                cout<<"\t  Book Author Name      --------- [2] \n";
+                cout<<"\t  Book Category         --------- [3] \n";
+                cout<<"\t  Book publication year --------- [4] \n";
+                cout<<"\t  Book Volume           --------- [5] \n";
+                cout<<"\t  Book Amount           --------- [6] \n";
+                cout<<"\t  Main Menu             --------- [7] \n";
+                cout <<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+                cout<<"\t Choice: ";
+                cin>>menu;
+                switch(menu){
+                    case 1:
+                        system("cls");
+                        cout<<"Enter The New Book Name: ";
+                        cin.ignore();
+                        cin.get(book[temp.ID.increment-1].bookName,100);
+                        break;
+                    case 2:
+                         cout<<"Enter The New Book Author Name: ";
+                        cin.ignore();
+                        cin.get(book[temp.ID.increment-1].authorName,100);
+                        break;
+                    case 3:
+                        cout<<"Enter The New Book Category: ";
+                        cin.ignore();
+                        cin.get(book[temp.ID.increment-1].category,100);
+                        break;
+                    case 4:
+                        cout<<"Enter The New Book Publication Year: ";
+                        cin>>book[temp.ID.increment-1].pubYear;
+                        break;
+                    case 5:
+                        cout<<"Enter The New Book Volume: ";
+                        cin>>book[temp.ID.increment-1].volume;
+                        break;
+                    case 6:
+                        cout<<"Enter The New Book Amount: ";
+                        cin>>book[temp.ID.increment-1].amount;
+                        break;
+                    case 7:
+                        system("cls");
+                        main();
+                        break;
+                    default:
+                        cout<<"\nINVALID INPUT!\n";
+                        system("pause");
+                        system("cls");
+                        admin_page();
+                }
+                if(menu!=7){
+                    cout<<"\n\n\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+                    cout<<"\t    UPDATED SUCCESSFULLY \n";
+                    cout<<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+                }
+                system("pause");
+                system("cls");
+                admin_page();
+                break;
+            }
+        }
+    }
+    if(found1==false){
+            cout<<"\n   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd"<<endl;
+            cout<< "\t    BOOK ID NOT FOUND PLEASE TRY AGAIN  \n";
+            cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+            system("pause");
+            system("cls");
+            admin_page();
+        }
+}
+void do_delete_book(int a){
+    bool found;
+    for(int j=0; j<i; j++){
+        if(a = book[j].ID.increment){
+            found = true;
+            for(int l=a; l<i; ++l){
+                book[l-1]=book[l];
+            }
+            i--;
+            system("cls");
+            cout<<"\n   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd"<<endl;
+            cout<< "\t    BOOK DELETED SUCCESSFULLY  \n";
+            cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+
+            system("pause");
+            system("cls");
+            admin_page();
+            break;
+        }
+    }
+    if(!found){
+        cout << "ID not found please try again! :/"<<endl;
+        delete_book();
+    }
+}
+
+void delete_book(){
+    system("cls");
+    bool found = false;
+    cout <<"\n\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t  Enter Name Of The Book: ";
+    cin.ignore();
+    cin.get(temp.bookName, 100);
+    cout<<"\t======================================================================================================\n";
+    cout<<"\tBook ID "<<"\t"<<"Book name"<<"\t"<<"Author name"<<"\t"<<"Category"<<"\t"<<"Pub.Year"<<"\t"<<"Volume"<<"\t\t"<<"Rating"<<endl;
+    cout<<"\t______________________________________________________________________________________________________\n";
+    for(int j = 0; j< i; j++){
+        if(strcmp(book[j].bookName,temp.bookName) == 0){
+            found = true;
+            cout<<"\t"<<book[j].ID.na<<book[j].ID.increment<<"\t\t"<<book[j].bookName<<"\t\t"<<book[j].authorName;
+            cout<<"\t\t"<<book[j].category<<"\t\t"<<book[j].volume<<"\t\t"<<book[j].pubYear<<"\t\t"<<book[j].rating<<endl;
+            cout<<"\t______________________________________________________________________________________________________\n";
+        }
+    }
+    if(!found){
+        system("cls");
+        cout<<"\t======================================================================================================\n";
+        cout << "\t\t\tNO BOOK RECORD BY THE NAME: "<<temp.bookName<<endl;
+        cout<<"\t======================================================================================================\n";
+        system("pause");
+        admin_page();
+    }
+    if(found==true){
+        cout<<"Enter The Numerical Part Of The ID Of The Book You Want To Delete From The List Above."<<endl<<"\t  lms: ";
+        cin>>temp.ID.increment;
+        cout<<"Enter '1'    To Confirmation Or a Any Other Key To Cancel And Return To The Admin Page."<<endl;
+        cin>>cont;
+        if(cont == '1'){
+            do_delete_book(temp.ID.increment);
+        }
+        else {
+            system("cls");
+            admin_page();
+        }
+    }
+}
+void reg_user(){
+    do{
+        system("cls");
+        cout <<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+        cout<<"\t  Enter Your First Name: ";
+        cin.ignore();
+        cin.get(user[n].fName,30);
+        cout <<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+        cout<<"\t  Enter Your Last Name: ";
+        cin.ignore();
+        cin.get(user[n].lName,30);
+        get_user();
+        get_user_email();
+        cout <<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+        cout<<"\t  Enter A Password: ";
+        cin.ignore();
+        cin.get(user[n].password,30);
+        cout <<"\n\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+        cout <<"\n\n\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+        cout<<"\t    USER REGISTRATION SUCCESSFULL \n";
+        cout <<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+        cout<<"\nPress 1 To Continue Adding Books or Press Any Key To Go Back To Admin Page... ";
+        cin>>cont;
+        n++;
+    }while(cont=='1');
+    system("cls");
+    user_page();
+}
+void get_user(){
+ comehere:
+    cout <<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t  Enter A User Name: ";;
+    cin.ignore();
+    cin.get(user[n].userName,30);
+    for(int j=0; j<n; j++){
+        if(strcmp(user[n].userName,user[j].userName)==0){
+            cout << "\t  This User Name Is Taken!";
+            cout<<"\n\t  Please Choose A Different User Name.\n";
+            goto comehere;
+        }
+    }
+}
+void get_user_email(){
+comehere:
+    cout <<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t  Enter Your Email Address: ";
+    cin>>user[n].email;
+    string str = user[n].email;
+    size_t foundAt = str.find("@");
+    if (foundAt == string::npos){
+        cout << "\t  Your Email Should Include @\n";
+        goto comehere;
+    }
+    size_t foundDot = str.find(".com");
+    if (foundDot == string::npos){
+        cout << "\t  Your Email Should Include .com\n";
+        goto comehere;
+    }
+}
+void user_login(){
+    system("cls");
+    bool found1=false,found2=false;
+    cout<<"User-Name: ";
+    cin.ignore();
+    cin.get(tempUser.userName,30);
+    cout<<"Password: ";
+    cin.ignore();
+    cin.get(tempUser.password,30);
+    for(int j=0; j<=n; j++){
+        if(strcmp(user[j].userName,tempUser.userName)==0){
+            found1=true;
+            if(strcmp(user[j].password,tempUser.password)==0){
+                found2=true;
+                system("cls");
+                p=j;
+                users();
+                break;
+            }
+        }
+    }
+    if(found1==false){
+        cout<<"\nINVALID USERNAME!\n";
+    }
+    if(found2==false){
+       cout<<"\nINVALID PASSWORD!\n";
+    }
+    cout<<"\nPress 1 To Try Again or Press Any Key To Go Back To User Page... ";
+    cin>>cont;
+    while(cont=='1'){
+        user_login();
+    }
+    user_page();
+}
+void user_page(){
+    system("cls");
+    cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"   \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd MENU OPTIONS \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\n"<<endl;
+    cout<<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t New User Registration --------- [1] \n";
+    cout<<"\t Login Page            --------- [2] \n";
+    cout<<"\t Main Menu             --------- [3] \n";
+    cout <<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+    cout<<"\t Choice: ";
+    cin>>menu;
+    switch(menu){
+        case 1:
+            system("cls");
+            reg_user();
+            break;
+        case 2:
+            system("cls");
+            user_login();
+            break;
+        case 3:
+            system("cls");
+            main();
+            break;
+        default:
+            cout <<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+            cout<<"\tINVALID INPUT!\n\n";
+            system("pause");
+            system("cls");
+            users();
+    }
+}
+void add_book(){
+    do{
+        system("cls");
+        cout <<"\n\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";        cout<<"\t  Enter Name Of The Book: ";
+        cin.ignore();
+        cin.get(book[i].bookName,100);
+        strupr(book[i].bookName);
+        cout <<"\n\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+        cout<<"\t  Enter The Name Of The Author: ";
+        cin.ignore();
+        cin.get(book[i].authorName,100);
+        strupr(book[i].authorName);
+        cout <<"\n\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+        cout<<"\t  Enter The Book Catagory: ";
+        cin.ignore();
+        cin.get(book[i].category,100);
+        strupr(book[i].category);
+        cout <<"\n\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+        cout<<"\n\t  Enter Book publication year: ";
+        cin>>book[i].pubYear;
+        cout <<"\n\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+        cout<<"\t  Enter Amount Of The Book: ";
+        cin>>book[i].amount;
+        cout <<"\n\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+        cout<<"\t  Enter Volume Of The Book: ";
+        cin>>book[i].volume;
+        book[i].ID.increment=i+1;
+        cout <<"\n\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+        cout <<"\n\n\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+        cout<<"\t    BOOK REGISTRATION SUCCESSFULL \n";
+        cout <<"\t \xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd\xcd \n";
+        cout<<"\nPress 1 To Continue Adding Books or Press Any Key To Go Back To Admin Page... ";
+        cin>>cont;
+        i++;
+    }while(cont=='1');
+    admin_page();
+}
+void sortAsfName(){
+    system("cls");
+    cout<<endl;
+    for(int k=0; k<n; k++){
+        for(int j=0; j<n-k-1; j++){
+            if(strcmp(user[j].fName,user[j+1].fName)>0){
+                tempUser = user[j];
+                user[j]=user[j+1];
+                user[j+1]=tempUser;
+            }
+        }
+    }
+    display_user();
+    system("pause");
+    system("cls");
+    display_user_page();
+}
+void sortDsfName(){
+    system("cls");
+    cout<<endl;
+    for(int k=0; k<n; k++){
+        for(int j=0; j<n-k-1; j++){
+            if(strcmp(user[j].fName,user[j+1].fName)<0){
+                tempUser = user[j];
+                user[j]=user[j+1];
+                user[j+1]=tempUser;
+            }
+        }
+    }
+    display_user();
+    system("pause");
+    system("cls");
+    display_user_page();
+}
+void sortAslName(){
+    system("cls");
+    cout<<endl;
+    for(int k=0; k<n; k++){
+        for(int j=0; j<n-k-1; j++){
+            if(strcmp(user[j].lName,user[j+1].lName)>0){
+                tempUser = user[j];
+                user[j]=user[j+1];
+                user[j+1]=tempUser;
+            }
+        }
+    }
+    display_user();
+    system("pause");
+    system("cls");
+    display_user_page();
+}
+void sortDslName(){
+    system("cls");
+    cout<<endl;
+    for(int k=0; k<n; k++){
+        for(int j=0; j<n-k-1; j++){
+            if(strcmp(user[j].lName,user[j+1].lName)<0){
+                tempUser = user[j];
+                user[j]=user[j+1];
+                user[j+1]=tempUser;
+            }
+        }
+    }
+    display_user();
+    system("pause");
+    system("cls");
+    display_user_page();
+}
